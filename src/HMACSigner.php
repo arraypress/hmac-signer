@@ -35,13 +35,13 @@
  * @package     ArrayPress/HMAC-Signer
  * @copyright   Copyright 2024, ArrayPress Limited
  * @license     GPL2+
- * @version     1.0.0
+ * @version     0.1.0
  * @author      David Sherlock
  */
 
 declare( strict_types=1 );
 
-namespace ArrayPress\Utils;
+namespace ArrayPress\Utils\HMACSigner;
 
 use function base64_encode;
 use function hash_hmac;
@@ -49,8 +49,6 @@ use function is_numeric;
 use function rtrim;
 use function time;
 use function urlencode;
-use function wp_get_attachment_metadata;
-use function wp_get_attachment_url;
 
 if ( ! class_exists( 'HMACSigner' ) ) :
 
@@ -203,6 +201,11 @@ if ( ! class_exists( 'HMACSigner' ) ) :
 				$resource = '/' . ltrim( $resource, '/' );
 			}
 
+			// Return early if the resource is empty.
+			if ( empty( $resource ) ) {
+				return '';
+			}
+
 			$timestamp     = $this->useTimestamp ? time() : '';
 			$token         = $this->generateToken( $resource, $timestamp );
 			$timestampPart = $this->useTimestamp ? "{$timestamp}-" : "";
@@ -219,23 +222,20 @@ if ( ! class_exists( 'HMACSigner' ) ) :
 		}
 
 		/**
-		 * Converts a WordPress attachment ID to a URL.
-		 * Uses WordPress functions to fetch the URL of an attachment based on its ID.
-		 * If no URL is found, returns an empty string.
+		 * Retrieve the URL from an attachment ID, and strip the basename from it.
 		 *
-		 * @param int $id WordPress attachment ID.
+		 * @param int $id The attachment ID.
 		 *
-		 * @return string URL of the attachment or an empty string if not found.
+		 * @return string The processed URL or an empty string if the URL is not found.
 		 */
 		private function getUrlFromAttachmentId( int $id ): string {
-			$url = wp_get_attachment_url( $id );
-
-			// Return an empty string instead of throwing an exception if the URL is not found
-			if ( ! $url ) {
+			if ( ! function_exists( 'wp_get_attachment_url' ) ) {
 				return '';
 			}
 
-			return $this->stripFromUrl( basename( $url ) );
+			$url = wp_get_attachment_url( $id );
+
+			return $url ? $this->stripFromUrl( basename( $url ) ) : '';
 		}
 
 		/**

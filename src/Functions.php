@@ -29,13 +29,13 @@
  * @package     ArrayPress/HMAC-Signer
  * @copyright   Copyright 2024, ArrayPress Limited
  * @license     GPL2+
- * @version     1.0.0
+ * @version     0.1.0
  * @author      David Sherlock
  */
 
 declare( strict_types=1 );
 
-namespace ArrayPress\Utils;
+namespace ArrayPress\Utils\HMACSigner;
 
 if ( ! function_exists( 'get_attachment_signed' ) ) {
 	/**

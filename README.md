@@ -20,8 +20,8 @@ composer require arraypress/hmac-signer
 // Require the Composer autoloader to enable class autoloading.
 require_once __DIR__ . '/vendor/autoload.php';
 
-use function ArrayPress\Utils\get_attachment_signed;
-use function ArrayPress\Utils\get_signed_resource;
+use function ArrayPress\Utils\HMACSigner\get_attachment_signed;
+use function ArrayPress\Utils\HMACSigner\get_signed_resource;
 ```
 
 ## Usage Examples
@@ -78,8 +78,11 @@ Ensure your rule is effective by accessing a resource with both a valid and an i
 
 ## Contributions
 
-Contributions are welcome! Please feel free to submit pull requests or create issues on GitHub.
+Contributions to this library are highly appreciated. Raise issues on GitHub or submit pull requests for bug
+fixes or new features. Share feedback and suggestions for improvements.
 
-## License
+## License: GPLv2 or later
 
-This project is licensed under the GPL-2.0-or-later license.
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later
+version.
